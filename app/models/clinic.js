@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 
 const clinicSchema = new mongoose.Schema({
+    doctorReference: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Doctor',
+        required: true
+    },
     abbreviation: {
         type: String,
         required: true

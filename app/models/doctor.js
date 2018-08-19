@@ -1,9 +1,9 @@
 const mongoose = require('mongoose')
 
 const doctorSchema = new mongoose.Schema({
-    doctorReference: {
+    sessionReference: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Session',
         required: true
     },
     first_name: {
