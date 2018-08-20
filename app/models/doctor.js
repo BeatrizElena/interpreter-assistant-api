@@ -6,10 +6,6 @@ const doctorSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    dateCreated: {
-        type: Date,
-        default: Date.now
-    },
     first_name: {
         type: String,
         required: true

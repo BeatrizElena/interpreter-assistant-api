@@ -1,4 +1,4 @@
-first_name,last_name,title,phone
-Jorge,Castillo,MD,617-632-2681
-Irene,Ghobrial,MD,617-632-4218
-Steven P.,Treon,"MD, PhD",617-632-4218
+postedBy,first_name,last_name,title,clinic,phone,disease,owner
+Beatriz,Jorge,Castillo,MD,Hematology,617-632-2681,sickle cell anemia,5ec7d683f7d130858b5cca82fa014fb6
+Beatriz,Irene,Ghobrial,MD,Hematology,617-632-4218,leukemia,5ec7d683f7d130858b5cca82fa014fb6
+Beatriz,Steven P.,Treon,"MD, PhD",Hematology,617-632-4218,multiple myeloma,5ec7d683f7d130858b5cca82fa014fb6
