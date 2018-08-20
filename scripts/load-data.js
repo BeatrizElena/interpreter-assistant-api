@@ -31,7 +31,7 @@ const parseDoctors = () => {
     })
 
     parser.on('error', e => reject(e))
-    parser.on('finish', () => resolve(items))
+    parser.on('finish', () => resolve(doctors))
     input.pipe(parser)
     return doctors
   })
