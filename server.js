@@ -5,8 +5,9 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 
 // require route files
-const exampleRoutes = require('./app/routes/example_routes')
+const doctorRoutes = require('./app/routes/doctor_routes')
 const userRoutes = require('./app/routes/user_routes')
+
 
 // require database configuration logic
 // `db` will be the actual Mongo URI as a string
@@ -69,7 +70,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // register route files
-app.use(exampleRoutes)
+app.use(doctorRoutes)
 app.use(userRoutes)
 
 // run API on designated port (4741 in this case)
