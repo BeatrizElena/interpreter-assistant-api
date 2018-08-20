@@ -34,7 +34,7 @@ const router = express.Router()
 //   Doctor.find({'owner': req.user._id}).populate('doctorReference')
 
 router.get('/doctors', (req, res) => {
-  Doctor.find()
+  Doctor.find().populate('postedBy')
     .then(doctors => {
       // `doctors` will be an array of Mongoose documents
       // to convert each one to a Plain Old JS Object (POJO), we use `.map` to
