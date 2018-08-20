@@ -60,22 +60,18 @@ router.get('/doctors', (req, res) => {
 //     .catch(err => handle(err, res))
 // })
 
-// // CREATE
-// // POST /examples
-// router.post('/examples', requireToken, (req, res) => {
-//   // set owner of new example to be current user
-//   req.body.example.owner = req.user.id
+// CREATE
+// POST /doctors
+router.post('/doctors', requireToken, (req, res) => {
+  // set owner of new example to be current user
+  req.body.doctor.owner = req.user.id
 
-//   Example.create(req.body.example)
-//     // respond to succesful `create` with status 201 and JSON of new "example"
-//     .then(example => {
-//       res.status(201).json({ example: example.toObject() })
-//     })
-//     // if an error occurs, pass it off to our error handler
-//     // the error handler needs the error message and the `res` object so that it
-//     // can send an error message back to the client
-//     .catch(err => handle(err, res))
-// })
+  Doctor.create(req.body.doctor)
+    .then(doctor => {
+      res.status(201).json({ doctor: doctor.toObject() })
+    })
+    .catch(err => handle(err, res))
+})
 
 // // UPDATE
 // // PATCH /examples/5a7db6c74d55bc51bdf39793

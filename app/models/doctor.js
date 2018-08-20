@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+// phone validation docs: //https://mongoosejs.com/docs/validation.html
 const doctorSchema = new mongoose.Schema({
     postedBy: {
         type: mongoose.Schema.Types.ObjectId,
@@ -22,7 +22,7 @@ const doctorSchema = new mongoose.Schema({
         ref: 'Clinic',
         required: true
     },
-    phone: {//https://mongoosejs.com/docs/validation.html
+    phone: {
         type: String,
         validate: {
         validator: function(v) {
