@@ -2,10 +2,9 @@
 
 # sh ./scripts/auth/sign-in.sh
 
-EMAIL='user1@user.com'
+EMAIL='user4@user.com'
 PASSWORD='123'
-# "token":"be0d3c76d276cb65075765b6133c0bc9",
-# "_id":"5b7ad88938868c161a2c4543"
+# "token":"73339ffeb2d8d13bd4f3cf9d03a52dd5",
 
 API="http://localhost:4741"
 URL_PATH="/sign-in"
