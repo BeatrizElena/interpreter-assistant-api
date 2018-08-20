@@ -1,11 +1,15 @@
 const mongoose = require('mongoose')
 
 const doctorSchema = new mongoose.Schema({
-    sessionReference: {
+    postedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Session',
+        ref: 'User',
         required: true
     },
+    dateCreated: {
+        type: Date,
+        default: Date.now
+    },,
     first_name: {
         type: String,
         required: true
@@ -38,7 +42,7 @@ const doctorSchema = new mongoose.Schema({
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Clinic',
         required: true
     }
 }, {

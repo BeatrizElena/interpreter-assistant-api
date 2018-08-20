@@ -1,10 +1,14 @@
 const mongoose = require('mongoose')
 
 const clinicSchema = new mongoose.Schema({
-    doctorReference: {
+    postedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Doctor',
+        ref: 'User',
         required: true
+    },
+    dateCreated: {
+        type: Date,
+        default: Date.now
     },
     abbreviation: {
         type: String,
@@ -25,6 +29,11 @@ const clinicSchema = new mongoose.Schema({
     },
     description: {
         type: String
+    },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 },
 {

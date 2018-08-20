@@ -1,10 +1,14 @@
 const mongoose = require('mongoose')
 
 const diseaseSchema = new mongoose.Schema({
-    doctorReference: {
+    postedBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Doctor',
+        ref: 'User',
         required: true
+    },
+    dateCreated: {
+        type: Date,
+        default: Date.now
     },
     name_english: {
         type: String
