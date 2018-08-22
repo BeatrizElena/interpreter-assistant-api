@@ -8,6 +8,7 @@ const cors = require('cors')
 const clinicRoutes = require('./app/routes/clinic_routes')
 const doctorRoutes = require('./app/routes/doctor_routes')
 const diseaseRoutes = require('./app/routes/disease_routes')
+const sessionRoutes = require('./app/routes/session_routes')
 const userRoutes = require('./app/routes/user_routes')
 
 
@@ -75,6 +76,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(clinicRoutes)
 app.use(doctorRoutes)
 app.use(diseaseRoutes)
+app.use(sessionRoutes)
 app.use(userRoutes)
 
 // run API on designated port (4741 in this case)
