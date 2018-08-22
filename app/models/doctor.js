@@ -30,12 +30,12 @@ const doctorSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Disease',
         required: true
-    },
-    owner: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Clinic',
-        required: true
     }
+    // owner: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Clinic',
+    //     required: true
+    // }
 }, {
     timestamps: true
 })

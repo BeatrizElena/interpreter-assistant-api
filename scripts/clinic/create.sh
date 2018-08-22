@@ -4,10 +4,10 @@
 
 API="http://localhost:4741"
 URL_PATH="/clinics"
-ABBREVIATION="JF"
-NAME="Jimmy Fund/Pediatrics"
+ABBREVIATION="BOC"
+NAME="Breast Oncology"
 PHONE="617-123-4567"
-TOKEN="5ec7d683f7d130858b5cca82fa014fb6"
+TOKEN="79f94741526391859db7a006dbad50be"
 
 
 curl "${API}${URL_PATH}" \

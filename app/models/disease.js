@@ -6,10 +6,6 @@ const diseaseSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    dateCreated: {
-        type: Date,
-        default: Date.now
-    },
     name_english: {
         type: String
     },
@@ -21,12 +17,12 @@ const diseaseSchema = new mongoose.Schema({
     },
     description_translated: {
         type: String
-    },
-    owner: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Doctor',
-        required: true
     }
+    // owner: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Doctor',
+    //     required: true
+    // }
 },
 {
     timestamps: true

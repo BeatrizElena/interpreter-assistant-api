@@ -3,7 +3,9 @@ const express = require('express')
 // Passport docs: http://www.passportjs.org/docs/
 const passport = require('passport')
 
-// pull in Mongoose model for doctors
+// pull in Mongoose model
+const Disease = require('../models/disease')
+const Clinic = require('../models/clinic')
 const Doctor = require('../models/doctor')
 
 // intercept any errors that get thrown and send them
@@ -33,20 +35,20 @@ const router = express.Router()
 // router.get('/doctors', requireToken, (req, res) => {
 //   Doctor.find({'owner': req.user._id}).populate('doctorReference')
 
-router.get('/doctors', (req, res) => {
-  // res.send("here's the doctors route for GET")
-  Doctor.find().populate('postedBy')
-    .then(doctors => {
-      // `doctors` will be an array of Mongoose documents
-      // to convert each one to a Plain Old JS Object (POJO), we use `.map` to
-      // apply `.toObject` to each one
-      return doctors.map(doctor => doctor.toObject())
-    })
-    // respond with status 200 and JSON of the doctors
-    .then(doctors => res.status(200).json({ doctors: doctors }))
-    // if an error occurs, pass it to the handler
-    .catch(err => handle(err, res))
-})
+// router.get('/doctors', (req, res) => {
+//   // res.send("here's the doctors route for GET")
+//   Doctor.find().populate('postedBy')
+//     .then(doctors => {
+//       // `doctors` will be an array of Mongoose documents
+//       // to convert each one to a Plain Old JS Object (POJO), we use `.map` to
+//       // apply `.toObject` to each one
+//       return doctors.map(doctor => doctor.toObject())
+//     })
+//     // respond with status 200 and JSON of the doctors
+//     .then(doctors => res.status(200).json({ doctors: doctors }))
+//     // if an error occurs, pass it to the handler
+//     .catch(err => handle(err, res))
+// })
 
 // SHOW
 // GET /examples/5a7db6c74d55bc51bdf39793
@@ -61,15 +63,17 @@ router.get('/doctors', (req, res) => {
 // })
 
 // CREATE
-// POST /doctors
-router.post('/doctors', requireToken, (req, res) => {
-  // set owner of new doctor to be current user
-  console.log(req.body)
-  req.body.doctor.owner = req.user.id
+// POST /clinics
+router.post('/diseases', requireToken, (req, res) => {
+  // set owner of new clinic to be current user
+  req.body.disease.owner = req.user.id
 
-  Doctor.create(req.body.doctor)
-    .then(doctor => {
-      res.status(201).json({ doctor: doctor.toObject() })
+  console.log(req.body)
+
+  Clinic.create(req.body.disease)
+    .then(disease => {
+      console.log(disease)
+      res.status(201).json({ disease: disease.toObject() })
     })
     .catch(err => handle(err, res))
 })

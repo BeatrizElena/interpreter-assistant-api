@@ -7,6 +7,7 @@ const cors = require('cors')
 // require route files
 const clinicRoutes = require('./app/routes/clinic_routes')
 const doctorRoutes = require('./app/routes/doctor_routes')
+const diseaseRoutes = require('./app/routes/disease_routes')
 const userRoutes = require('./app/routes/user_routes')
 
 
@@ -73,6 +74,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // register route files
 app.use(clinicRoutes)
 app.use(doctorRoutes)
+app.use(diseaseRoutes)
 app.use(userRoutes)
 
 // run API on designated port (4741 in this case)
