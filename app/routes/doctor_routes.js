@@ -106,20 +106,20 @@ router.patch('/doctors/:id', requireToken, (req, res) => {
 })
 
 // // DESTROY
-// // DELETE /examples/5a7db6c74d55bc51bdf39793
-// router.delete('/examples/:id', requireToken, (req, res) => {
-//   Example.findById(req.params.id)
-//     .then(handle404)
-//     .then(example => {
-//       // throw an error if current user doesn't own `example`
-//       requireOwnership(req, example)
-//       // delete the example ONLY IF the above didn't throw
-//       example.remove()
-//     })
-//     // send back 204 and no content if the deletion succeeded
-//     .then(() => res.sendStatus(204))
-//     // if an error occurs, pass it to the handler
-//     .catch(err => handle(err, res))
-// })
+// // DELETE /doctors/id
+router.delete('/doctors/:id', requireToken, (req, res) => {
+  Doctor.findById(req.params.id)
+    .then(handle404)
+    .then(doctor => {
+      // throw an error if current user doesn't own `example`
+      requireOwnership(req, doctor)
+      // delete the example ONLY IF the above didn't throw
+      doctor.remove()
+    })
+    // send back 204 and no content if the deletion succeeded
+    .then(() => res.sendStatus(204))
+    // if an error occurs, pass it to the handler
+    .catch(err => handle(err, res))
+})
 
 module.exports = router

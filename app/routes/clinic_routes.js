@@ -31,31 +31,31 @@ const router = express.Router()
 
 // INDEX
 // GET /examples
-router.get('/doctors', requireToken, (req, res) => {
-  Doctor.find({'owner': req.user._id}).populate('owner')
-    .then(doctors => {
-      // `doctors` will be an array of Mongoose documents
+router.get('/clinics', requireToken, (req, res) => {
+  Clinic.find({'owner': req.user._id})
+    .then(clinics => {
+      // `clinics` will be an array of Mongoose documents
       // to convert each one to a Plain Old JS Object (POJO), we use `.map` to
       // apply `.toObject` to each one
-      return doctors.map(doctor => doctor.toObject())
+      return clinics.map(clinic => clinic.toObject())
     })
     // respond with status 200 and JSON of the doctors
-    .then(doctors => res.status(200).json({ doctors: doctors }))
+    .then(clinics => res.status(200).json({ clinics: clinics }))
     // if an error occurs, pass it to the handler
     .catch(err => handle(err, res))
 })
 
 // SHOW
-// GET /examples/5a7db6c74d55bc51bdf39793
-// router.get('/examples/:id', requireToken, (req, res) => {
-//   // req.params.id will be set based on the `:id` in the route
-//   Example.findById(req.params.id)
-//     .then(handle404)
-//     // if `findById` is succesful, respond with 200 and "example" JSON
-//     .then(example => res.status(200).json({ example: example.toObject() }))
-//     // if an error occurs, pass it to the handler
-//     .catch(err => handle(err, res))
-// })
+// GET /clinics/id
+router.get('/clinics/:id', requireToken, (req, res) => {
+  // req.params.id will be set based on the `:id` in the route
+  Clinic.findById(req.params.id)
+    .then(handle404)
+    // if `findById` is succesful, respond with 200 and "clinic" JSON
+    .then(clinic => res.status(200).json({ clinic: clinic.toObject() }))
+    // if an error occurs, pass it to the handler
+    .catch(err => handle(err, res))
+})
 
 // CREATE
 // POST /clinics
@@ -74,52 +74,52 @@ router.post('/clinics', requireToken, (req, res) => {
 })
 
 // // UPDATE
-// // PATCH /examples/5a7db6c74d55bc51bdf39793
-// router.patch('/examples/:id', requireToken, (req, res) => {
-//   // if the client attempts to change the `owner` property by including a new
-//   // owner, prevent that by deleting that key/value pair
-//   delete req.body.example.owner
+// // PATCH /clinics/id
+router.patch('/clinics/:id', requireToken, (req, res) => {
+  // if the client attempts to change the `owner` property by including a new
+  // owner, prevent that by deleting that key/value pair
+  delete req.body.clinic.owner
 
-//   Example.findById(req.params.id)
-//     .then(handle404)
-//     .then(example => {
-//       // pass the `req` object and the Mongoose record to `requireOwnership`
-//       // it will throw an error if the current user isn't the owner
-//       requireOwnership(req, example)
+  Clinic.findById(req.params.id)
+    .then(handle404)
+    .then(clinic => {
+      // pass the `req` object and the Mongoose record to `requireOwnership`
+      // it will throw an error if the current user isn't the owner
+      requireOwnership(req, clinic)
 
-//       // the client will often send empty strings for parameters that it does
-//       // not want to update. We delete any key/value pair where the value is
-//       // an empty string before updating
-//       Object.keys(req.body.example).forEach(key => {
-//         if (req.body.example[key] === '') {
-//           delete req.body.example[key]
-//         }
-//       })
+      // the client will often send empty strings for parameters that it does
+      // not want to update. We delete any key/value pair where the value is
+      // an empty string before updating
+      Object.keys(req.body.clinic).forEach(key => {
+        if (req.body.clinic[key] === '') {
+          delete req.body.clinic[key]
+        }
+      })
 
-//       // pass the result of Mongoose's `.update` to the next `.then`
-//       return example.update(req.body.example)
-//     })
-//     // if that succeeded, return 204 and no JSON
-//     .then(() => res.sendStatus(204))
-//     // if an error occurs, pass it to the handler
-//     .catch(err => handle(err, res))
-// })
+      // pass the result of Mongoose's `.update` to the next `.then`
+      return clinic.update(req.body.clinic)
+    })
+    // if that succeeded, return 204 and no JSON
+    .then(() => res.sendStatus(204))
+    // if an error occurs, pass it to the handler
+    .catch(err => handle(err, res))
+})
 
 // // DESTROY
-// // DELETE /examples/5a7db6c74d55bc51bdf39793
-// router.delete('/examples/:id', requireToken, (req, res) => {
-//   Example.findById(req.params.id)
-//     .then(handle404)
-//     .then(example => {
-//       // throw an error if current user doesn't own `example`
-//       requireOwnership(req, example)
-//       // delete the example ONLY IF the above didn't throw
-//       example.remove()
-//     })
-//     // send back 204 and no content if the deletion succeeded
-//     .then(() => res.sendStatus(204))
-//     // if an error occurs, pass it to the handler
-//     .catch(err => handle(err, res))
-// })
+// // DELETE /clinics/id
+router.delete('/clinics/:id', requireToken, (req, res) => {
+  Clinic.findById(req.params.id)
+    .then(handle404)
+    .then(clinic => {
+      // throw an error if current user doesn't own `clinic`
+      requireOwnership(req, clinic)
+      // delete the clinic ONLY IF the above didn't throw
+      clinic.remove()
+    })
+    // send back 204 and no content if the deletion succeeded
+    .then(() => res.sendStatus(204))
+    // if an error occurs, pass it to the handler
+    .catch(err => handle(err, res))
+})
 
 module.exports = router
