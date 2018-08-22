@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+import phoneValidator from '../validators/phone';
 // phone validation docs: //https://mongoosejs.com/docs/validation.html
 const doctorSchema = new mongoose.Schema({
     postedBy: {
@@ -20,7 +21,8 @@ const doctorSchema = new mongoose.Schema({
     clinic: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Clinic',
-        required: true
+        required: true,
+        validate: phoneValidator
     },
     phone: {
         type: String,
