@@ -31,23 +31,19 @@ const router = express.Router()
 
 // INDEX
 // GET /examples
-// router.get('/doctors', requireToken, (req, res) => {
-//   Doctor.find({'owner': req.user._id}).populate('doctorReference')
-
-// router.get('/doctors', (req, res) => {
-//   // res.send("here's the doctors route for GET")
-//   Doctor.find().populate('postedBy')
-//     .then(doctors => {
-//       // `doctors` will be an array of Mongoose documents
-//       // to convert each one to a Plain Old JS Object (POJO), we use `.map` to
-//       // apply `.toObject` to each one
-//       return doctors.map(doctor => doctor.toObject())
-//     })
-//     // respond with status 200 and JSON of the doctors
-//     .then(doctors => res.status(200).json({ doctors: doctors }))
-//     // if an error occurs, pass it to the handler
-//     .catch(err => handle(err, res))
-// })
+router.get('/doctors', requireToken, (req, res) => {
+  Doctor.find({'owner': req.user._id}).populate('owner')
+    .then(doctors => {
+      // `doctors` will be an array of Mongoose documents
+      // to convert each one to a Plain Old JS Object (POJO), we use `.map` to
+      // apply `.toObject` to each one
+      return doctors.map(doctor => doctor.toObject())
+    })
+    // respond with status 200 and JSON of the doctors
+    .then(doctors => res.status(200).json({ doctors: doctors }))
+    // if an error occurs, pass it to the handler
+    .catch(err => handle(err, res))
+})
 
 // SHOW
 // GET /examples/5a7db6c74d55bc51bdf39793

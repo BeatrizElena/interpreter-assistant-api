@@ -2,7 +2,7 @@
 
 # sh ./scripts/auth/sign-in.sh
 
-EMAIL='user4@user.com'
+EMAIL='bea1@bea1.com'
 PASSWORD='123'
 # "token":"73339ffeb2d8d13bd4f3cf9d03a52dd5",
 

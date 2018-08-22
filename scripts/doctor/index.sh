@@ -1,8 +1,8 @@
 #!/bin/sh
 
-# sh ./scripts/doctors/index.sh
+# sh ./scripts/doctor/index.sh
 
-TOKEN="be0d3c76d276cb65075765b6133c0bc9"
+TOKEN="5fc8e445fee210ba2c7fdcbcc6685a50"
 
 API="http://localhost:4741"
 URL_PATH="/doctors"

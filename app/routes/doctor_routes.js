@@ -34,12 +34,11 @@ const router = express.Router()
 //   Doctor.find({'owner': req.user._id}).populate('doctorReference')
 
 router.get('/doctors', (req, res) => {
-  // res.send("here's the doctors route for GET")
-  Doctor.find().populate('postedBy')
+  Doctor.find()
     .then(doctors => {
       // `doctors` will be an array of Mongoose documents
-      // to convert each one to a Plain Old JS Object (POJO), we use `.map` to
-      // apply `.toObject` to each one
+      // convert each document in the array to a Plain Old JS Object (POJO), by:
+      // using `.map` and then apply `.toObject` to each one
       return doctors.map(doctor => doctor.toObject())
     })
     // respond with status 200 and JSON of the doctors
@@ -48,17 +47,17 @@ router.get('/doctors', (req, res) => {
     .catch(err => handle(err, res))
 })
 
-// SHOW
+// SHOW (ById)
 // GET /examples/5a7db6c74d55bc51bdf39793
-// router.get('/examples/:id', requireToken, (req, res) => {
-//   // req.params.id will be set based on the `:id` in the route
-//   Example.findById(req.params.id)
-//     .then(handle404)
-//     // if `findById` is succesful, respond with 200 and "example" JSON
-//     .then(example => res.status(200).json({ example: example.toObject() }))
-//     // if an error occurs, pass it to the handler
-//     .catch(err => handle(err, res))
-// })
+router.get('/doctors/:id', requireToken, (req, res) => {
+  // req.params.id will be set based on the `:id` in the route
+  Doctor.findById(req.params.id)
+    .then(handle404)
+    // if `findById` is succesful, respond with 200 and "doctor" JSON
+    .then(doctor => res.status(200).json({ doctor: doctor.toObject() }))
+    // if an error occurs, pass it to the handler
+    .catch(err => handle(err, res))
+})
 
 // CREATE
 // POST /doctors
@@ -75,36 +74,36 @@ router.post('/doctors', requireToken, (req, res) => {
 })
 
 // // UPDATE
-// // PATCH /examples/5a7db6c74d55bc51bdf39793
-// router.patch('/examples/:id', requireToken, (req, res) => {
-//   // if the client attempts to change the `owner` property by including a new
-//   // owner, prevent that by deleting that key/value pair
-//   delete req.body.example.owner
+// // PATCH /doctors/id
+router.patch('/doctors/:id', requireToken, (req, res) => {
+  // if the client attempts to change the `owner` property by including a new
+  // owner, prevent that by deleting that key/value pair
+  delete req.body.doctor.owner
 
-//   Example.findById(req.params.id)
-//     .then(handle404)
-//     .then(example => {
-//       // pass the `req` object and the Mongoose record to `requireOwnership`
-//       // it will throw an error if the current user isn't the owner
-//       requireOwnership(req, example)
+  Doctor.findById(req.params.id)
+    .then(handle404)
+    .then(doctor => {
+      // pass the `req` object and the Mongoose record to `requireOwnership`
+      // it will throw an error if the current user isn't the owner
+      requireOwnership(req, doctor)
 
-//       // the client will often send empty strings for parameters that it does
-//       // not want to update. We delete any key/value pair where the value is
-//       // an empty string before updating
-//       Object.keys(req.body.example).forEach(key => {
-//         if (req.body.example[key] === '') {
-//           delete req.body.example[key]
-//         }
-//       })
+      // if client sends empty strings for parameters that it does
+      // not want to update, then delete any key/value pair where the value is
+      // an empty string before updating
+      Object.keys(req.body.doctor).forEach(key => {
+        if (req.body.doctor[key] === '') {
+          delete req.body.doctor[key]
+        }
+      })
 
-//       // pass the result of Mongoose's `.update` to the next `.then`
-//       return example.update(req.body.example)
-//     })
-//     // if that succeeded, return 204 and no JSON
-//     .then(() => res.sendStatus(204))
-//     // if an error occurs, pass it to the handler
-//     .catch(err => handle(err, res))
-// })
+      // pass the result of Mongoose's `.update` to the next `.then`
+      return doctor.update(req.body.doctor)
+    })
+    // if that succeeded, return 204 and no JSON
+    .then(() => res.sendStatus(204))
+    // if an error occurs, pass it to the handler
+    .catch(err => handle(err, res))
+})
 
 // // DESTROY
 // // DELETE /examples/5a7db6c74d55bc51bdf39793

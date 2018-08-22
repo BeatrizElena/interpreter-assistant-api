@@ -12,7 +12,7 @@
 
 # doctor
 # sh ./scripts/doctor/create.sh
-# sh ./scripts/doctors/index.sh
+# sh ./scripts/doctor/index.sh
 
 # session
 # sh ./scripts/session/create.sh
