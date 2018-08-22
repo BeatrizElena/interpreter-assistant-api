@@ -7,7 +7,7 @@
 
 API="http://localhost:4741"
 URL_PATH="/diseases"
-TOKEN="d1e62eb0c549de71ef5608972ada7ed2"
+TOKEN="79f94741526391859db7a006dbad50be"
 NAME_ENGLISH="Uterine Cancer"
 NAME_TRANSLATED="Cáncer de útero"
 DESCRIPTION_ENGLISH="There are different types of uterine cancer. The most common type starts in the endometrium, the lining of the uterus. This type is also called endometrial cancer."
@@ -21,7 +21,6 @@ curl "${API}${URL_PATH}" \
   --header "Authorization: Bearer ${TOKEN}" \
   --data '{
     "disease": {
-      "posted_by": "'"${TOKEN}"'",
       "name_english": "'"${NAME_ENGLISH}"'",
       "name_translated": "'"${NAME_TRANSLATED}"'",
       "description_english": "'"${DESCRIPTION_ENGLISH}"'",

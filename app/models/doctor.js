@@ -1,12 +1,13 @@
 const mongoose = require('mongoose')
-import phoneValidator from '../validators/phone';
+// const phoneValidator = require('../validators/phone')
+
 // phone validation docs: //https://mongoosejs.com/docs/validation.html
 const doctorSchema = new mongoose.Schema({
-    postedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
+    // postedBy: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'User',
+    //     required: true
+    // },
     first_name: {
         type: String,
         required: true
@@ -21,8 +22,8 @@ const doctorSchema = new mongoose.Schema({
     clinic: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Clinic',
-        required: true,
-        validate: phoneValidator
+        required: true
+        // validate: phoneValidator
     },
     phone: {
         type: String,
@@ -32,12 +33,12 @@ const doctorSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Disease',
         required: true
+    },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
-    // owner: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Clinic',
-    //     required: true
-    // }
 }, {
     timestamps: true
 })

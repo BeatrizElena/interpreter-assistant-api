@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 
 const diseaseSchema = new mongoose.Schema({
-    postedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
+    // postedBy: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'User',
+    //     required: true
+    // },
     name_english: {
         type: String
     },
@@ -17,12 +17,12 @@ const diseaseSchema = new mongoose.Schema({
     },
     description_translated: {
         type: String
+    },
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
-    // owner: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Doctor',
-    //     required: true
-    // }
 },
 {
     timestamps: true

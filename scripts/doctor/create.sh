@@ -7,13 +7,13 @@
 
 API="http://localhost:4741"
 URL_PATH="/doctors"
-TOKEN="d1e62eb0c549de71ef5608972ada7ed2"
-FIRSTNAME="Thomas"
-LASTNAME="Gomez"
+TOKEN="79f94741526391859db7a006dbad50be"
+FIRSTNAME="Wanda"
+LASTNAME="Ortiz"
 TITLE="MD"
 CLINIC="5b7cac710bad9e6a42fa4463"
 PHONE="617-123-4567"
-DISEASE=""
+DISEASE="5b7cd620be39d37d759019aa"
 
 
 curl "${API}${URL_PATH}" \
@@ -23,7 +23,6 @@ curl "${API}${URL_PATH}" \
   --header "Authorization: Bearer ${TOKEN}" \
   --data '{
     "doctor": {
-      "posted_by": "'"${TOKEN}"'",
       "first_name": "'"${FIRSTNAME}"'",
       "last_name": "'"${LASTNAME}"'",
       "title": "'"${TITLE}"'",

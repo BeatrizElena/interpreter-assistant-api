@@ -70,7 +70,7 @@ router.post('/diseases', requireToken, (req, res) => {
 
   console.log(req.body)
 
-  Clinic.create(req.body.disease)
+  Disease.create(req.body.disease)
     .then(disease => {
       console.log(disease)
       res.status(201).json({ disease: disease.toObject() })
