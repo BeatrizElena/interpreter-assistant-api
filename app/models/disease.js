@@ -18,11 +18,11 @@ const diseaseSchema = new mongoose.Schema({
     description_translated: {
         type: String
     },
-    owner: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    }
+    // owner: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'User',
+    //     required: true
+    // }
 },
 {
     timestamps: true

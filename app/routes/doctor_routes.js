@@ -35,6 +35,18 @@ const router = express.Router()
 
 router.get('/doctors', (req, res) => {
   Doctor.find()
+    .populate({
+      path: 'clinic',
+      populate: [{
+        path: 'clinic',
+        model: 'Clinic'
+      },
+      {
+        path: 'disease',
+        model: 'Disease'
+      }
+    ]
+    })
     .then(doctors => {
       // `doctors` will be an array of Mongoose documents
       // convert each document in the array to a Plain Old JS Object (POJO), by:
@@ -52,6 +64,18 @@ router.get('/doctors', (req, res) => {
 router.get('/doctors/:id', requireToken, (req, res) => {
   // req.params.id will be set based on the `:id` in the route
   Doctor.findById(req.params.id)
+  .populate({
+    path: 'clinic',
+    populate: [{
+      path: 'clinic',
+      model: 'Clinic'
+    },
+    {
+      path: 'disease',
+      model: 'Disease'
+    }
+  ]
+  })
     .then(handle404)
     // if `findById` is succesful, respond with 200 and "doctor" JSON
     .then(doctor => res.status(200).json({ doctor: doctor.toObject() }))
@@ -80,7 +104,7 @@ router.patch('/doctors/:id', requireToken, (req, res) => {
   // owner, prevent that by deleting that key/value pair
   delete req.body.doctor.owner
 
-  Doctor.findById(req.params.id)
+  Doctor.findById(req.params.id).populate('clinic', 'disease')
     .then(handle404)
     .then(doctor => {
       // pass the `req` object and the Mongoose record to `requireOwnership`

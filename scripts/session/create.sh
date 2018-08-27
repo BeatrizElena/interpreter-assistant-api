@@ -6,9 +6,9 @@
 
 API="http://localhost:4741"
 URL_PATH="/sessions"
-TOKEN="8a375c7b4112f23b4bac54449f6f9adb"
+TOKEN="9aff33303c5d819e3c3be2c10bf6113d"
 DOCTOR="5b7cd718348b2c7db2f1b1bf"
-NOTES="This session was challenging because there were many providers and many family members present"
+NOTES="More sesson notes. Created with curl script"
 
 
 curl "${API}${URL_PATH}" \

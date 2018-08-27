@@ -5,6 +5,8 @@ const passport = require('passport')
 
 // pull in Mongoose model for sessions
 const Session = require('../models/session')
+const Doctor = require('../models/doctor')
+
 
 // intercept any errors that get thrown and send them
 // back to the client with the appropriate status code
@@ -33,14 +35,29 @@ const router = express.Router()
 router.get('/sessions', (req, res) => {
   // res.send("here's the sessions route for GET")
   Session.find()
+    .populate({
+      path: 'doctor',
+      populate: [{
+        path: 'clinic',
+        model: 'Clinic'
+      },
+      {
+        path: 'disease',
+        model: 'Disease'
+      }
+    ]
+    })
     .then(sessions => {
-      // `sessions` will be an array of Mongoose documents
-      // to convert each one to a Plain Old JS Object (POJO), we use `.map` to
+      // convert each `sessions` document to a Plain Old JS Object (POJO). Use `.map` to
       // apply `.toObject` to each one
       return sessions.map(session => session.toObject())
+      // iterate through mySession
+        // for each session, grab doctor key (which is a Doctor ID)
+        // use the Doctor model to find that Doctor info, and convert it to Object
+        // replace the doctor key value with this Object
     })
     // respond with status 200 and JSON of the doctors
-    .then(docsessionstors => res.status(200).json({ sessions: sessions }))
+    .then(sessions => res.status(200).json({ sessions: sessions }))
     // if an error occurs, pass it to the handler
     .catch(err => handle(err, res))
 })
@@ -50,6 +67,18 @@ router.get('/sessions', (req, res) => {
 router.get('/sessions/:id', requireToken, (req, res) => {
   // req.params.id will be set based on the `:id` in the route
   Session.findById(req.params.id)
+    .populate({
+      path: 'doctor',
+      populate: [{
+        path: 'clinic',
+        model: 'Clinic'
+      },
+      {
+        path: 'disease',
+        model: 'Disease'
+      }
+    ]
+    })
     .then(handle404)
     // if `findById` is succesful, respond with 200 and "session" JSON
     .then(session => res.status(200).json({ session: session.toObject() }))
@@ -61,11 +90,16 @@ router.get('/sessions/:id', requireToken, (req, res) => {
 // POST /sessions
 router.post('/sessions', requireToken, (req, res) => {
   // set owner of new session to be current user
-  console.log(req.body)
-  req.body.session.owner = req.user.id
+  // console.log(req)
+  console.log('string one')
+  console.log(req.body.session)
+  console.log('string two')
+  req.body.session.owner = req.user._id
+  console.log(req.user.id)
 
   Session.create(req.body.session)
     .then(session => {
+      requireOwnership(req, session)
       res.status(201).json({ session: session.toObject() })
     })
     .catch(err => handle(err, res))
@@ -76,9 +110,21 @@ router.post('/sessions', requireToken, (req, res) => {
 router.patch('/sessions/:id', requireToken, (req, res) => {
   // if the client attempts to change the `owner` property by including a new
   // owner, prevent that by deleting that key/value pair
-  delete req.body.session.owner
+  // delete req.body.session.owner
 
   Session.findById(req.params.id)
+    .populate({
+      path: 'doctor',
+      populate: [{
+        path: 'clinic',
+        model: 'Clinic'
+      },
+      {
+        path: 'disease',
+        model: 'Disease'
+      }
+    ]
+    })
     .then(handle404)
     .then(session => {
       // pass the `req` object and the Mongoose record to `requireOwnership`

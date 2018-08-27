@@ -2,8 +2,11 @@
 
 ### macOS ###
 *.DS_Store
+.DS_Store
 .AppleDouble
 .LSOverride
+assets/.DS_Store
+assets/scripts/chat.js
 
 # Icon must end with two \r
 Icon

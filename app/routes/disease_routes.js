@@ -28,7 +28,7 @@ const router = express.Router()
 // INDEX
 // GET /diseases
 router.get('/diseases', requireToken, (req, res) => {
-  Disease.find({'owner': req.user._id})
+  Disease.find()
     .then(doctors => {
       // `doctors` is an array of Mongoose documents that need to be coverted to 
       // Plain Old JS Object (POJO). Use `.map` to apply `.toObject` to each one
