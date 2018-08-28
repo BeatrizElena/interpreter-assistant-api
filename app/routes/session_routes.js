@@ -89,14 +89,14 @@ router.get('/sessions/:id', requireToken, (req, res) => {
 // CREATE
 // POST /sessions
 router.post('/sessions', requireToken, (req, res) => {
-  // set owner of new session to be current user
   // console.log(req)
-  console.log('string one')
-  console.log(req.body.session)
-  console.log('string two')
+  // console.log('string: req.body')
+  // console.log(req.body)
+  // console.log('string: end of req.body')
   req.body.session.owner = req.user._id
-  console.log(req.user.id)
+  // console.log(req.user.id)
 
+  // set owner of new session to be current user
   Session.create(req.body.session)
     .then(session => {
       requireOwnership(req, session)
@@ -110,7 +110,18 @@ router.post('/sessions', requireToken, (req, res) => {
 router.patch('/sessions/:id', requireToken, (req, res) => {
   // if the client attempts to change the `owner` property by including a new
   // owner, prevent that by deleting that key/value pair
-  // delete req.body.session.owner
+  //  console.log('session_routes, update function: req')
+  // console.log(req)
+  // console.log('req')
+  // console.log('session_routes req:')
+  console.log(req.body)
+  console.log('session_routes req.body.session:')
+  console.log(req.body.session)
+  // console.log('start: req.body.session.owner')
+  // console.log(req.body.session.owner)
+  // console.log('end: req.body.session.owner')
+  // console.log('session_routes:end of update console logs')
+  delete req.body.session.owner
 
   Session.findById(req.params.id)
     .populate({
@@ -118,22 +129,16 @@ router.patch('/sessions/:id', requireToken, (req, res) => {
       populate: [{
         path: 'clinic',
         model: 'Clinic'
-      },
-      {
-        path: 'disease',
-        model: 'Disease'
       }
     ]
     })
-    .then(handle404)
+    // .then(handle404)
     .then(session => {
       // pass the `req` object and the Mongoose record to `requireOwnership`
       // it will throw an error if the current user isn't the owner
       requireOwnership(req, session)
 
-      // the client will often send empty strings for parameters that it does
-      // not want to update. We delete any key/value pair where the value is
-      // an empty string before updating
+      // before updating, delete any key/value pair where the value of the field was left empty
       Object.keys(req.body.session).forEach(key => {
         if (req.body.session[key] === '') {
           delete req.body.session[key]
