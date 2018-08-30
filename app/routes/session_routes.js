@@ -90,12 +90,18 @@ router.get('/sessions/:id', requireToken, (req, res) => {
 // POST /sessions
 router.post('/sessions', requireToken, (req, res) => {
   // console.log(req)
-  console.log('string: req.body')
+  console.log('________________string: begin req.body_________')
   console.log(req.body)
-  console.log('string: end of req.body')
-  // req.body.owner = req.user._id
+  console.log('________________string: end of req.body__________')
+
+  console.log('________________string: begin req.body.owner__________')
+  req.body.owner = req.user._id
+  console.log('________________string: end of req.body.owner__________')
+
+  console.log('________________string: begin req.user.id__________')
   console.log(req.user.id)
-  console.log(req.body.owner)
+  console.log('________________string: end req.user.id__________')
+
 
   // set owner of new example to be current user
   req.body.session.owner = req.user.id
