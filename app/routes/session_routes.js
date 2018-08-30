@@ -33,6 +33,7 @@ const router = express.Router()
 // INDEX
 // GET /sessions
 router.get('/sessions', (req, res) => {
+  // console.log(`console log of 'req' in router.get/sessions: req`)
   // res.send("here's the sessions route for GET")
   Session.find()
     .populate({
@@ -91,9 +92,9 @@ router.get('/sessions/:id', requireToken, (req, res) => {
 router.post('/sessions', requireToken, (req, res) => {
   // console.log(req)
   // console.log('string: req.body')
-  // console.log(req.body)
+  console.log(req.body)
   // console.log('string: end of req.body')
-  req.body.session.owner = req.user._id
+  req.body.owner = req.user._id
   // console.log(req.user.id)
 
   // set owner of new session to be current user
