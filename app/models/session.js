@@ -6,10 +6,6 @@ const sessionSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    // dateCreated: {
-    //     type: Date,
-    //     default: Date.now
-    // },
     doctor: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Doctor',

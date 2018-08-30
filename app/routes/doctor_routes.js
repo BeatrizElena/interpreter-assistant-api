@@ -28,39 +28,33 @@ const requireToken = passport.authenticate('bearer', { session: false })
 // instantiate a router (mini app that only handles routes)
 const router = express.Router()
 
-// INDEX
-// GET /examples
-// router.get('/doctors', requireToken, (req, res) => {
-//   Doctor.find({'owner': req.user._id}).populate('doctorReference')
-
-router.get('/doctors', (req, res) => {
-  Doctor.find()
+// INDEX (see all): GET /doctors
+router.get('/doctors', requireToken, (req, res) => {
+  Doctor.find({'owner': req.user._id})
     .populate({
-      path: 'clinic',
+      path: 'clinicReference',
       populate: [{
-        path: 'clinic',
+        path: 'clinicReference',
         model: 'Clinic'
       },
       {
-        path: 'disease',
+        path: 'diseaseReference',
         model: 'Disease'
       }
     ]
     })
     .then(doctors => {
-      // `doctors` will be an array of Mongoose documents
-      // convert each document in the array to a Plain Old JS Object (POJO), by:
+      // `doctors` is an array of Mongoose documents. Each document in the
+      // array needs to be converted to a Plain Old JS Object (POJO), by:
       // using `.map` and then apply `.toObject` to each one
       return doctors.map(doctor => doctor.toObject())
     })
-    // respond with status 200 and JSON of the doctors
     .then(doctors => res.status(200).json({ doctors: doctors }))
-    // if an error occurs, pass it to the handler
     .catch(err => handle(err, res))
 })
 
-// SHOW (ById)
-// GET /examples/5a7db6c74d55bc51bdf39793
+// SHOW (See One By Id)
+// GET /doctors/:id
 router.get('/doctors/:id', requireToken, (req, res) => {
   // req.params.id will be set based on the `:id` in the route
   Doctor.findById(req.params.id)
@@ -79,7 +73,6 @@ router.get('/doctors/:id', requireToken, (req, res) => {
     .then(handle404)
     // if `findById` is succesful, respond with 200 and "doctor" JSON
     .then(doctor => res.status(200).json({ doctor: doctor.toObject() }))
-    // if an error occurs, pass it to the handler
     .catch(err => handle(err, res))
 })
 
@@ -87,7 +80,7 @@ router.get('/doctors/:id', requireToken, (req, res) => {
 // POST /doctors
 router.post('/doctors', requireToken, (req, res) => {
   // set owner of new doctor to be current user
-  console.log(req.body)
+  // console.log(req.body)
   req.body.doctor.owner = req.user.id
 
   Doctor.create(req.body.doctor)
@@ -98,13 +91,13 @@ router.post('/doctors', requireToken, (req, res) => {
 })
 
 // // UPDATE
-// // PATCH /doctors/id
+// // PATCH /doctors/:id
 router.patch('/doctors/:id', requireToken, (req, res) => {
   // if the client attempts to change the `owner` property by including a new
   // owner, prevent that by deleting that key/value pair
   delete req.body.doctor.owner
 
-  Doctor.findById(req.params.id).populate('clinic', 'disease')
+  Doctor.findById(req.params.id)
     .then(handle404)
     .then(doctor => {
       // pass the `req` object and the Mongoose record to `requireOwnership`
@@ -123,9 +116,7 @@ router.patch('/doctors/:id', requireToken, (req, res) => {
       // pass the result of Mongoose's `.update` to the next `.then`
       return doctor.update(req.body.doctor)
     })
-    // if that succeeded, return 204 and no JSON
     .then(() => res.sendStatus(204))
-    // if an error occurs, pass it to the handler
     .catch(err => handle(err, res))
 })
 
@@ -135,14 +126,12 @@ router.delete('/doctors/:id', requireToken, (req, res) => {
   Doctor.findById(req.params.id)
     .then(handle404)
     .then(doctor => {
-      // throw an error if current user doesn't own `example`
+      // throw an error if current user doesn't own `doctor`
       requireOwnership(req, doctor)
       // delete the example ONLY IF the above didn't throw
       doctor.remove()
     })
-    // send back 204 and no content if the deletion succeeded
     .then(() => res.sendStatus(204))
-    // if an error occurs, pass it to the handler
     .catch(err => handle(err, res))
 })
 
