@@ -3,11 +3,6 @@ const mongoose = require('mongoose')
 
 // phone validation docs: //https://mongoosejs.com/docs/validation.html
 const doctorSchema = new mongoose.Schema({
-    // postedBy: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'User',
-    //     required: true
-    // },
     first_name: {
         type: String,
         required: true
@@ -19,7 +14,7 @@ const doctorSchema = new mongoose.Schema({
     title: {
         type: String
     },
-    clinic: {
+    clinicReference: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Clinic',
         required: true
@@ -29,16 +24,16 @@ const doctorSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    disease: {
+    diseaseReference: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Disease',
         required: true
     },
-    // owner: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'User',
-    //     required: true
-    // }
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }
 }, {
     timestamps: true
 })
