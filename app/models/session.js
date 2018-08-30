@@ -6,7 +6,7 @@ const sessionSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    doctor: {
+    doctorReference: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Doctor',
         required: true

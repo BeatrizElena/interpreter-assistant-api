@@ -5,7 +5,7 @@ const passport = require('passport')
 
 // pull in Mongoose model for sessions
 const Session = require('../models/session')
-const Doctor = require('../models/doctor')
+// const Doctor = require('../models/doctor')
 
 
 // intercept any errors that get thrown and send them
@@ -32,9 +32,9 @@ const router = express.Router()
 
 // INDEX
 // GET /sessions
-router.get('/sessions', (req, res) => {
+router.get('/sessions', requireToken, (req, res) => {
   // res.send("here's the sessions route for GET")
-  Session.find()
+  Session.find({'owner': req.user._id})
     .populate({
       path: 'doctor',
       populate: [{
@@ -48,8 +48,6 @@ router.get('/sessions', (req, res) => {
     ]
     })
     .then(sessions => {
-      // convert each `sessions` document to a Plain Old JS Object (POJO). Use `.map` to
-      // apply `.toObject` to each one
       return sessions.map(session => session.toObject())
       // iterate through mySession
         // for each session, grab doctor key (which is a Doctor ID)
@@ -89,20 +87,6 @@ router.get('/sessions/:id', requireToken, (req, res) => {
 // CREATE
 // POST /sessions
 router.post('/sessions', requireToken, (req, res) => {
-  // console.log(req)
-  console.log('________________string: begin req.body_________')
-  console.log(req.body)
-  console.log('________________string: end of req.body__________')
-
-  console.log('________________string: begin req.body.owner__________')
-  req.body.owner = req.user._id
-  console.log('________________string: end of req.body.owner__________')
-
-  console.log('________________string: begin req.user.id__________')
-  console.log(req.user.id)
-  console.log('________________string: end req.user.id__________')
-
-
   // set owner of new example to be current user
   req.body.session.owner = req.user.id
 
@@ -119,17 +103,6 @@ router.post('/sessions', requireToken, (req, res) => {
 router.patch('/sessions/:id', requireToken, (req, res) => {
   // if the client attempts to change the `owner` property by including a new
   // owner, prevent that by deleting that key/value pair
-  //  console.log('session_routes, update function: req')
-  // console.log(req)
-  // console.log('req')
-  // console.log('session_routes req:')
-  console.log(req.body)
-  console.log('session_routes req.body.session:')
-  console.log(req.body.session)
-  // console.log('start: req.body.session.owner')
-  // console.log(req.body.session.owner)
-  // console.log('end: req.body.session.owner')
-  // console.log('session_routes:end of update console logs')
   delete req.body.session.owner
 
   Session.findById(req.params.id)
@@ -138,6 +111,10 @@ router.patch('/sessions/:id', requireToken, (req, res) => {
       populate: [{
         path: 'clinic',
         model: 'Clinic'
+      },
+      {
+        path: 'disease',
+        model: 'Disease'
       }
     ]
     })

@@ -29,8 +29,8 @@ const requireToken = passport.authenticate('bearer', { session: false })
 const router = express.Router()
 
 // INDEX (see all): GET /doctors
-router.get('/doctors', requireToken, (req, res) => {
-  Doctor.find({'owner': req.user._id})
+router.get('/doctors', (req, res) => {
+  Doctor.find()
     .populate({
       path: 'clinicReference',
       populate: [{
@@ -55,7 +55,7 @@ router.get('/doctors', requireToken, (req, res) => {
 
 // SHOW (See One By Id)
 // GET /doctors/:id
-router.get('/doctors/:id', requireToken, (req, res) => {
+router.get('/doctors/:id', (req, res) => {
   // req.params.id will be set based on the `:id` in the route
   Doctor.findById(req.params.id)
   .populate({
@@ -76,63 +76,65 @@ router.get('/doctors/:id', requireToken, (req, res) => {
     .catch(err => handle(err, res))
 })
 
+// No other CRUD actions for doctors in this mersion of the app
+
 // CREATE
 // POST /doctors
-router.post('/doctors', requireToken, (req, res) => {
-  // set owner of new doctor to be current user
-  // console.log(req.body)
-  req.body.doctor.owner = req.user.id
+// router.post('/doctors', requireToken, (req, res) => {
+//   // set owner of new doctor to be current user
+//   // console.log(req.body)
+//   req.body.doctor.owner = req.user.id
 
-  Doctor.create(req.body.doctor)
-    .then(doctor => {
-      res.status(201).json({ doctor: doctor.toObject() })
-    })
-    .catch(err => handle(err, res))
-})
+//   Doctor.create(req.body.doctor)
+//     .then(doctor => {
+//       res.status(201).json({ doctor: doctor.toObject() })
+//     })
+//     .catch(err => handle(err, res))
+// })
 
-// // UPDATE
-// // PATCH /doctors/:id
-router.patch('/doctors/:id', requireToken, (req, res) => {
-  // if the client attempts to change the `owner` property by including a new
-  // owner, prevent that by deleting that key/value pair
-  delete req.body.doctor.owner
+// // // UPDATE
+// // // PATCH /doctors/:id
+// router.patch('/doctors/:id', requireToken, (req, res) => {
+//   // if the client attempts to change the `owner` property by including a new
+//   // owner, prevent that by deleting that key/value pair
+//   delete req.body.doctor.owner
 
-  Doctor.findById(req.params.id)
-    .then(handle404)
-    .then(doctor => {
-      // pass the `req` object and the Mongoose record to `requireOwnership`
-      // it will throw an error if the current user isn't the owner
-      requireOwnership(req, doctor)
+//   Doctor.findById(req.params.id)
+//     .then(handle404)
+//     .then(doctor => {
+//       // pass the `req` object and the Mongoose record to `requireOwnership`
+//       // it will throw an error if the current user isn't the owner
+//       requireOwnership(req, doctor)
 
-      // if client sends empty strings for parameters that it does
-      // not want to update, then delete any key/value pair where the value is
-      // an empty string before updating
-      Object.keys(req.body.doctor).forEach(key => {
-        if (req.body.doctor[key] === '') {
-          delete req.body.doctor[key]
-        }
-      })
+//       // if client sends empty strings for parameters that it does
+//       // not want to update, then delete any key/value pair where the value is
+//       // an empty string before updating
+//       Object.keys(req.body.doctor).forEach(key => {
+//         if (req.body.doctor[key] === '') {
+//           delete req.body.doctor[key]
+//         }
+//       })
 
-      // pass the result of Mongoose's `.update` to the next `.then`
-      return doctor.update(req.body.doctor)
-    })
-    .then(() => res.sendStatus(204))
-    .catch(err => handle(err, res))
-})
+//       // pass the result of Mongoose's `.update` to the next `.then`
+//       return doctor.update(req.body.doctor)
+//     })
+//     .then(() => res.sendStatus(204))
+//     .catch(err => handle(err, res))
+// })
 
-// // DESTROY
-// // DELETE /doctors/id
-router.delete('/doctors/:id', requireToken, (req, res) => {
-  Doctor.findById(req.params.id)
-    .then(handle404)
-    .then(doctor => {
-      // throw an error if current user doesn't own `doctor`
-      requireOwnership(req, doctor)
-      // delete the example ONLY IF the above didn't throw
-      doctor.remove()
-    })
-    .then(() => res.sendStatus(204))
-    .catch(err => handle(err, res))
-})
+// // // DESTROY
+// // // DELETE /doctors/id
+// router.delete('/doctors/:id', requireToken, (req, res) => {
+//   Doctor.findById(req.params.id)
+//     .then(handle404)
+//     .then(doctor => {
+//       // throw an error if current user doesn't own `doctor`
+//       requireOwnership(req, doctor)
+//       // delete the example ONLY IF the above didn't throw
+//       doctor.remove()
+//     })
+//     .then(() => res.sendStatus(204))
+//     .catch(err => handle(err, res))
+// })
 
 module.exports = router
