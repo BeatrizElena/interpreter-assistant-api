@@ -5,7 +5,7 @@ const passport = require('passport')
 
 // pull in Mongoose model for sessions
 const Session = require('../models/session')
-// const Doctor = require('../models/doctor')
+const Doctor = require('../models/doctor')
 
 
 // intercept any errors that get thrown and send them
@@ -36,13 +36,13 @@ router.get('/sessions', requireToken, (req, res) => {
   // res.send("here's the sessions route for GET")
   Session.find({'owner': req.user._id})
     .populate({
-      path: 'doctor',
+      path: 'doctorReference',
       populate: [{
-        path: 'clinic',
+        path: 'clinicReference',
         model: 'Clinic'
       },
       {
-        path: 'disease',
+        path: 'diseaseReference',
         model: 'Disease'
       }
     ]
@@ -66,13 +66,13 @@ router.get('/sessions/:id', requireToken, (req, res) => {
   // req.params.id will be set based on the `:id` in the route
   Session.findById(req.params.id)
     .populate({
-      path: 'doctor',
+      path: 'doctorReference',
       populate: [{
-        path: 'clinic',
+        path: 'clinicReference',
         model: 'Clinic'
       },
       {
-        path: 'disease',
+        path: 'diseaseReference',
         model: 'Disease'
       }
     ]
@@ -107,13 +107,13 @@ router.patch('/sessions/:id', requireToken, (req, res) => {
 
   Session.findById(req.params.id)
     .populate({
-      path: 'doctor',
+      path: 'doctorReference',
       populate: [{
-        path: 'clinic',
+        path: 'clinicReference',
         model: 'Clinic'
       },
       {
-        path: 'disease',
+        path: 'diseaseReference',
         model: 'Disease'
       }
     ]
