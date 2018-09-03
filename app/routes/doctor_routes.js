@@ -30,19 +30,22 @@ const router = express.Router()
 
 // INDEX (see all): GET /doctors
 router.get('/doctors', (req, res) => {
+  console.log(req)
+  console.log(req.data)
+  // console.log(req.data.doctors)
   Doctor.find()
-    .populate({
-      path: 'clinicReference',
-      populate: [{
-        path: 'clinicReference',
-        model: 'Clinic'
-      },
-      {
-        path: 'diseaseReference',
-        model: 'Disease'
-      }
-    ]
-    })
+    // .populate({
+    //   path: 'clinicReference',
+    //   populate: [{
+    //     path: 'clinicReference',
+    //     model: 'Clinic'
+    //   },
+    //   {
+    //     path: 'diseaseReference',
+    //     model: 'Disease'
+    //   }
+    // ]
+    // })
     .then(doctors => {
       // `doctors` is an array of Mongoose documents. Each document in the
       // array needs to be converted to a Plain Old JS Object (POJO), by:

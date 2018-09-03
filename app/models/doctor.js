@@ -14,21 +14,21 @@ const doctorSchema = new mongoose.Schema({
     title: {
         type: String
     },
-    clinicReference: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Clinic',
-        required: true
-        // validate: phoneValidator
-    },
+    // clinicReference: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Clinic',
+    //     required: true
+    //     // validate: phoneValidator
+    // },
     phone: {
         type: String,
         required: true
-    },
-    diseaseReference: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Disease',
-        required: true
     }
+    // diseaseReference: {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Disease',
+    //     required: true
+    // }
 }, {
     timestamps: true
 })

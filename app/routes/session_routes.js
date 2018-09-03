@@ -34,19 +34,19 @@ const router = express.Router()
 // GET /sessions
 router.get('/sessions', requireToken, (req, res) => {
   // res.send("here's the sessions route for GET")
-  Session.find({'owner': req.user._id})
-    .populate({
-      path: 'doctorReference',
-      populate: [{
-        path: 'clinicReference',
-        model: 'Clinic'
-      },
-      {
-        path: 'diseaseReference',
-        model: 'Disease'
-      }
-    ]
-    })
+  Session.find({'owner': req.user._id}).populate('doctorReference')
+    // .populate({
+    //   path: 'doctorReference',
+    //   populate: [{
+    //     path: 'clinicReference',
+    //     model: 'Clinic'
+    //   },
+    //   {
+    //     path: 'diseaseReference',
+    //     model: 'Disease'
+    //   }
+    // ]
+    // })
     .then(sessions => {
       return sessions.map(session => session.toObject())
       // iterate through mySession
