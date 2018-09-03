@@ -18,12 +18,12 @@ const customErrors = require('../../lib/custom_errors')
 const handle404 = customErrors.handle404
 // function to send 401 when a user tries to modify a resource
 // that's owned by someone else
-const requireOwnership = customErrors.requireOwnership
+// const requireOwnership = customErrors.requireOwnership
 
 // second argument to `router.<verb>` will make it
 // so that a token MUST be passed for that route to be available
 // it will also set `res.user`
-const requireToken = passport.authenticate('bearer', { session: false })
+// const requireToken = passport.authenticate('bearer', { session: false })
 
 // instantiate a router (mini app that only handles routes)
 const router = express.Router()
