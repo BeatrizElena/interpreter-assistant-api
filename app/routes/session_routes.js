@@ -108,19 +108,19 @@ router.patch('/sessions/:id', requireToken, (req, res) => {
   // owner, prevent that by deleting that key/value pair
   delete req.body.session.owner
 
-  Session.findById(req.params.id)
-    .populate({
-      path: 'doctorReference',
-      populate: [{
-        path: 'clinicReference',
-        model: 'Clinic'
-      },
-      {
-        path: 'diseaseReference',
-        model: 'Disease'
-      }
-    ]
-    })
+  Session.findById(req.params.id).populate('doctorReference')
+    // .populate({
+    //   path: 'doctorReference',
+    //   populate: [{
+    //     path: 'clinicReference',
+    //     model: 'Clinic'
+    //   },
+    //   {
+    //     path: 'diseaseReference',
+    //     model: 'Disease'
+    //   }
+    // ]
+    // })
     // .then(handle404)
     .then(session => {
       // pass the `req` object and the Mongoose record to `requireOwnership`
