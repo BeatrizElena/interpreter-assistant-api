@@ -64,22 +64,25 @@ router.get('/sessions', requireToken, (req, res) => {
 // GET /sessions/id
 router.get('/sessions/:id', requireToken, (req, res) => {
   // req.params.id will be set based on the `:id` in the route
-  Session.findById(req.params.id)
-    .populate({
-      path: 'doctorReference',
-      populate: [{
-        path: 'clinicReference',
-        model: 'Clinic'
-      },
-      {
-        path: 'diseaseReference',
-        model: 'Disease'
-      }
-    ]
-    })
+  Session.findById(req.params.id).populate('doctorReference')
+    // .populate({
+    //   path: 'doctorReference',
+    //   populate: [{
+    //     path: 'clinicReference',
+    //     model: 'Clinic'
+    //   },
+    //   {
+    //     path: 'diseaseReference',
+    //     model: 'Disease'
+    //   }
+    // ]
+    // })
     .then(handle404)
     // if `findById` is succesful, respond with 200 and "session" JSON
-    .then(session => res.status(200).json({ session: session.toObject() }))
+    .then(session => {
+      requireOwnership(req, session)
+      res.status(200).json({ session: session.toObject() })
+    })
     // if an error occurs, pass it to the handler
     .catch(err => handle(err, res))
 })

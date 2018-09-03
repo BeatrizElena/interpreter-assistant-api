@@ -33,7 +33,7 @@ router.get('/doctors', (req, res) => {
   console.log(req)
   console.log(req.data)
   // console.log(req.data.doctors)
-  Doctor.find()
+  Doctor.find().populate('clinic')
     // .populate({
     //   path: 'clinicReference',
     //   populate: [{

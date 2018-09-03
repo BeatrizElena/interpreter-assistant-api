@@ -14,12 +14,12 @@ const doctorSchema = new mongoose.Schema({
     title: {
         type: String
     },
-    // clinicReference: {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Clinic',
-    //     required: true
-    //     // validate: phoneValidator
-    // },
+    clinic: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Clinic',
+        required: true
+        // validate: phoneValidator
+    },
     phone: {
         type: String,
         required: true
