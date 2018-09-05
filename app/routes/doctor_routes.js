@@ -83,17 +83,19 @@ router.get('/doctors/:id', (req, res) => {
 
 // CREATE
 // POST /doctors
-// router.post('/doctors', requireToken, (req, res) => {
-//   // set owner of new doctor to be current user
-//   // console.log(req.body)
-//   req.body.doctor.owner = req.user.id
+router.post('/doctors', (req, res) => {
+  // set owner of new doctor to be current user
+  console.log("req-begin")
+  console.log(req)
+  console.log("req-end")
+  // req.body.doctor.owner = req.user.id
 
-//   Doctor.create(req.body.doctor)
-//     .then(doctor => {
-//       res.status(201).json({ doctor: doctor.toObject() })
-//     })
-//     .catch(err => handle(err, res))
-// })
+  Doctor.create(req.body)
+    .then(doctor => {
+      res.status(201).json({ doctor: doctor.toObject() })
+    })
+    .catch(err => handle(err, res))
+})
 
 // // // UPDATE
 // // // PATCH /doctors/:id
