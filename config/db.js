@@ -2,11 +2,10 @@
 
 // creating a base name for the mongodb
 const mongooseBaseName = 'ready-interpreter-api'
-const mongooseHerokuName = 'heroku_7f9l1c7n:435qbfqqb0ka80i24l26sm0gkg@ds125912.mlab.com:25912/heroku_7f9l1c7n'
 
 // create the mongodb uri for development and test
 const database = {
-  development: `mongodb://${mongooseHerokuName}-development`,
+  development: `mongodb://localhost/${mongooseBaseName}-development`,
   test: `mongodb://localhost/${mongooseBaseName}-test`
 }
 
