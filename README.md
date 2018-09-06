@@ -42,3 +42,11 @@ Postman
 ### ERDs
 
 ![interpreter-assistant-erd](https://media.git.generalassemb.ly/user/11650/files/a580c60a-b1c7-11e8-8cda-b39a72f42151)
+
+### Challenges Faced / Problem Solving Strategies
+
+This project streched me in the sense that it involved nested collections. Learning how to set up the routes and then implementing it correctly on the client side involved becoming more comfortable with Mongoose and MongoDB. Reading the documentation, Gooogle searches and the network of fellow GA students were my go-to resources. I also used GA's issue tracker and received guidance from instructors. The issue tracker was especially helpful as a "rubber-ducking" technique as often times hitting the submit button on a well-detailed issue I was facing was enough to get me on the right path to a solution. Middle-of-the-night solutions came in handy too!
+
+### Unsolved Problems / Future Plans
+
+I plan on adding a disease schema that will have collection documents in English and Spanish so the app becomes even more of a preparation tool for interpreters. Once a new MVP that incorporates this additional feature, and the client side is made more user-friendly, I plan to test it at Dana Farber. There will be at least 2-3 of us who would test the app under real-life conditions.
