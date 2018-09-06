@@ -41,5 +41,4 @@ Postman
 
 ### ERDs
 
-![interpreter-assistant-erd](/Users/beatriz/wdi/projects/project4/readyInterpreter-api/images/45166119-4b4f6180-b1c4-11e8-9be2-d3415b3276b9.png)
-
+![interpreter-assistant-erd](https://media.git.generalassemb.ly/user/11650/files/a580c60a-b1c7-11e8-8cda-b39a72f42151)
